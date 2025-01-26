@@ -10,6 +10,7 @@
 
     <name>Geographic Spatial Index</name>
     <description>Lightweight library providing a spatial index for geographic points</description>
+    <url>https://github.com/tinselspoon/geographic-spatial-index</url>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
