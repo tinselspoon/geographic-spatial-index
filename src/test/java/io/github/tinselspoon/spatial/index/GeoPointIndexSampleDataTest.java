@@ -1,11 +1,13 @@
 package io.github.tinselspoon.spatial.index;
 
-import io.github.tinselspoon.spatial.index.GeoPointIndex.WithinDistanceConsumer;
 import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.reader.NamedCsvRecord;
+import io.github.tinselspoon.spatial.index.GeoPointIndex.WithinDistanceConsumer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -98,4 +100,41 @@ class GeoPointIndexSampleDataTest {
         assertEquals(0, missingAirports.size(), "Missing airports: " + missingAirports);
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            // These points are a spherical projection from the location of EGLL (51.4706, -0.461941)
+            // of a distance of 99.99999999 meters at a bearing of 0, 15, 30, 45, ... up to 360
+            "51.471499321605826, -0.461941",
+            "51.47146867737145, -0.4615673285227443",
+            "51.471378833140854, -0.4612191235607355",
+            "51.47123591197401, -0.4609201157473675",
+            "51.47104965415505, -0.460690682351841",
+            "51.47083275328927, -0.4605464584999225",
+            "51.470599991136304, -0.4604972717680947",
+            "51.47036723017084, -0.460546472729285",
+            "51.47015033254939, -0.4606907069978011",
+            "51.469964079162274, -0.4609201442060821",
+            "51.4698211624273, -0.4612191482067053",
+            "51.46973132144103, -0.4615673427520996",
+            "51.46970067839417, -0.461941",
+            "51.46973132144103, -0.4623146572479004",
+            "51.4698211624273, -0.4626628517932903",
+            "51.469964079162274, -0.4629618557939179",
+            "51.47015033254939, -0.463191293002199",
+            "51.47036723017084, -0.463335527270715",
+            "51.470599991136304, -0.4633847282319053",
+            "51.47083275328927, -0.4633355415000774",
+            "51.47104965415505, -0.463191317648159",
+            "51.47123591197401, -0.4629618842526326",
+            "51.471378833140854, -0.4626628764392687",
+            "51.47146867737145, -0.4623146714772557",
+            "51.471499321605826, -0.461941", })
+    void testBoundarySearchArea(final double searchLatitude, final double searchLongitude) {
+        final Airport egll = airports.stream().filter(a -> a.ident().equals("EGLL")).findFirst().orElseThrow();
+
+        final boolean result = classUnderTest.queryWithinDistance(searchLatitude, searchLongitude, 100, mockCallback);
+
+        assertTrue(result);
+        verify(mockCallback).accept(eq(egll), AdditionalMatchers.eq(100, 1E-7));
+    }
 }
