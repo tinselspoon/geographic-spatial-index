@@ -1,13 +1,14 @@
 # Geographic Spatial Index
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tinselspoon/geographic-spatial-index)
+![CI Status](https://github.com/tinselspoon/geographic-spatial-index/actions/workflows/maven.yml/badge.svg)
 
 A simple, zero-dependency library for creating a "true" geographic spatial index on WGS 84 latitude-longitude points.
 
 ```xml
-
 <dependency>
     <groupId>io.github.tinselspoon</groupId>
     <artifactId>geographic-spatial-index</artifactId>
-    <version>LATEST</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
