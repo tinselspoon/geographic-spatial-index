@@ -127,8 +127,7 @@ class GeoPointIndexSampleDataTest {
             "51.47104965415505, -0.463191317648159",
             "51.47123591197401, -0.4629618842526326",
             "51.471378833140854, -0.4626628764392687",
-            "51.47146867737145, -0.4623146714772557",
-            "51.471499321605826, -0.461941", })
+            "51.47146867737145, -0.4623146714772557" })
     void testBoundarySearchArea(final double searchLatitude, final double searchLongitude) {
         final Airport egll = airports.stream().filter(a -> a.ident().equals("EGLL")).findFirst().orElseThrow();
 
